@@ -1,0 +1,85 @@
+dotabuffcp (0.7.1) unstable; urgency=low
+
+  * Update regex to capture win rates.
+  * Update get_heroes to fix name of Nature's Prophet.
+  * Update github links.
+
+ -- Onur Aslan <onur@onur.im>  Wed, 24 Feb 2016 11:11:41 +0200
+
+dotabuffcp (0.7.0) unstable; urgency=low
+
+  * Show win rate of heroes, thanks @aligo.
+  * Add abbr tag to explain percentages.
+
+ -- Onur Aslan <onur@onur.im>  Wed, 23 Dec 2015 13:37:01 +0200
+
+dotabuffcp (0.6.1) unstable; urgency=low
+
+  * Split javascript from html.
+  * Remove trailing whitespaces.
+  * Use ISO 8601 date format for update time.
+  * Update changelog url.
+
+ -- Onur Aslan <onur@onur.im>  Tue, 22 Dec 2015 14:08:53 +0200
+
+dotabuffcp (0.6) unstable; urgency=low
+
+  * Update regex to capture win rates, thanks @aligo.
+  * Add dotabuff.com prefix only if it's required for hero background
+    image urls.
+
+ -- Onur Aslan <onur@onur.im>  Tue, 22 Dec 2015 13:18:06 +0200
+
+dotabuffcp (0.5) unstable; urgency=low
+
+  * Remove apostrophe from hero name when generating hero link.
+  * Remove dotabuff.com prefix from hero images.
+  * Replace &#47; with / in hero background image links.
+  * Update regex to capture win rates.
+  * Update data.json for live version after a long break.
+    (Closes: #9, #11)
+
+ -- Onur Aslan <onur@onur.im>  Fri, 24 Apr 2015 17:47:29 +0300
+
+dotabuffcp (0.4) unstable; urgency=low
+
+  * Add techies to heroAbbrLookup. (Closes: #5)
+  * Fix updater script. (Closes: #6)
+
+ -- Onur Aslan <onuraslan@gmail.com>  Sat, 13 Sep 2014 11:48:50 +0300
+
+dotabuffcp (0.3.1) unstable; urgency=high
+
+  * Use dotabuff.com prefix for image URLs
+
+ -- Onur Aslan <onuraslan@gmail.com>  Sat, 16 Aug 2014 10:58:11 +0300
+
+dotabuffcp (0.3) unstable; urgency=high
+
+  * Fixed bug with selecting io (Closes: #4)
+  * Move changelog link to version string
+  * Remove version click binding
+
+ -- Onur Aslan <onuraslan@gmail.com>  Thu, 31 Jul 2014 15:58:54 +0300
+
+dotabuffcp (0.2.1) unstable; urgency=high
+
+  * Search is fixed. (Closes: #2)
+
+ -- Onur Aslan <onuraslan@gmail.com>  Tue, 06 May 2014 12:56:25 +0300
+
+dotabuffcp (0.2) unstable; urgency=low
+
+  * Fix typos.
+  * Add hero search with abbreviations and alternative hero names.
+    Thanks to Lukas Pradel. (Closes: #1)
+  * Remove debug message.
+  * Add ChangeLog to navbar.
+
+ -- Onur Aslan <onuraslan@gmail.com>  Tue, 06 May 2014 11:56:36 +0300
+
+dotabuffcp (0.1) unstable; urgency=low
+
+  * Initial release.
+
+ -- Onur Aslan <onuraslan@gmail.com>  Mon, 05 May 2014 13:46:47 +0300

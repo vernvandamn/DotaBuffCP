@@ -1,0 +1,317 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Dota 2 Counter Picker and advantage browser based on DotaBuff.">
+    <meta name="keywords" content="dota 2, counter, picker, picking, dotabuff">
+    <meta name="author" content="Onur Aslan">
+    <title>Counter Picker based on DotaBuff</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="data.js"></script>
+    <script src="dotabuffcp.js"></script>
+    <style type="text/css">
+
+       html, body {
+         height: 100%;
+       }
+
+       body {
+         padding: 20px 0 20px 0;
+       }
+
+       img {
+         border: 1px solid #aaa;
+         box-shadow: 2px 2px 8px 0px rgba(50, 50, 50, 0.38);
+       }
+
+       .navbar {
+         margin-bottom: 20px;
+       }
+
+       div.main-wrapper {
+         width: 967px !important;
+         position: relative;
+         height: 100%;
+       }
+
+       #main-container {
+         position: absolute;
+         bottom: 0;
+         top: 70px;
+         width: 967px !important;
+         padding-right: 30px;
+       }
+
+       div.main-col {
+         position: absolute;
+         bottom: 0;
+         top: 0;
+       }
+
+       div.second-col {
+         position: absolute;
+         bottom: 0;
+         top: 0;
+         right: 30px;
+       }
+
+       #hero-list {
+         position: absolute;
+         top: 50px;
+         bottom: 0;
+         overflow-y: auto;
+         left: 15px;
+         right: 20px;
+       }
+
+       #hero-list,
+       #hero-list li {
+         list-style-type: none;
+         margin: 0;
+         padding: 0;
+       }
+
+       #hero-list li {
+         margin-bottom: 10px;
+         cursor: pointer;
+       }
+
+       #hero-list li img {
+         max-width: 100px;
+         margin-right: 10px;
+       }
+
+       form.hero-search-form {
+         margin-bottom: 10px;
+       }
+
+       div.lineup img {
+         max-width: 100px;
+       }
+
+       div.lineup div.col-md-2 {
+         cursor: pointer;
+       }
+
+       div.lineup-title {
+         margin: 0 20px 0 20px;
+         text-align: center;
+       }
+
+       #counters {
+         position: absolute;
+         top: 180px;
+         bottom: 0;
+         overflow-y: auto;
+         overflow-x: hidden;
+         left: 30px;
+         right: 20px;
+         padding-right: 20px;
+       }
+
+       #counters div.row img {
+         max-width: 90px;
+       }
+
+       div.pick-title {
+         text-align: center;
+         padding-top: 20px;
+         font-size: 1.2em;
+       }
+
+       div.addthis_toolbox {
+         margin-top: 10px;
+       }
+
+       div.faq {
+         padding: 0 200px 0 200px;
+       }
+
+       div.reset-all-div {
+         padding-bottom: 20px;
+         text-align: center;
+       }
+
+       #reset-all,
+       #counters,
+       div.pick-title {
+         display: none;
+       }
+
+    </style>
+  </head>
+  <body>
+
+  <div class="container main-wrapper">
+
+
+    <!-- lets put a navbar -->
+
+    <div class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">DotaBuff CP</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#about">About</a></li>
+            <li><a href="https://github.com/onur/DotaBuffCP">GitHub</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://raw.githubusercontent.com/onur/DotaBuffCP/gh-pages/CHANGELOG" id="version"></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div><!--/.container-fluid -->
+    </div>
+
+  <div id="main-container"></div>
+
+  </div><!-- main wrapper -->
+
+  <script type="text/template" id="main-view-template">
+
+    <div class="row">
+      <div class="col-md-4 col-xs-4 main-col">
+
+        <form class="form-inline hero-search-form" role="form">
+          <div class="form-group">
+            <label class="sr-only" for="hero-search">Hero Name</label>
+            <input type="text" class="form-control" id="hero-search" placeholder="Search" autocomplete="off">
+          </div>
+          <button id="hero-search-reset" type="reset" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span></button>
+        </form>
+
+        <ul id="hero-list"></ul>
+      </div>
+      <div class="col-md-8 col-xs-8 second-col">
+        <div class="row alert alert-info row lineup-title">
+          <p>Choose enemy heroes from the list on the left</p>
+          <p>You can search heroes, and add them quickly by pressing enter</p>
+        </div>
+        <div class="row reset-all-div">
+          <a id="reset-all" class="btn btn-default">Reset all</a>
+        </div>
+        <div class="row lineup">
+          <div class="col-md-1 col-xs-1"></div>
+          <div class="col-md-2 col-xs-2" id="hero-0"></div>
+          <div class="col-md-2 col-xs-2" id="hero-1"></div>
+          <div class="col-md-2 col-xs-2" id="hero-2"></div>
+          <div class="col-md-2 col-xs-2" id="hero-3"></div>
+          <div class="col-md-2 col-xs-2" id="hero-4"></div>
+          <div class="col-md-1 col-xs-1"></div>
+        </div>
+        <div class="row pick-title">
+          <div class="row">
+            <div class="col-md-12 col-xs-12">Advantages</div>
+          </div>
+          <div class="col-md-6 col-xs-6">Best picks</div>
+          <div class="col-md-6 col-xs-6">Worst picks</div>
+        </div>
+        <div id="counters" class="row">
+          <div class="row">
+            <div class="col-md-6 col-xs-6">
+              <table class="table table-striped">
+                <tbody id="best-picks"></tbody>
+              </table>
+            </div>
+            <div class="col-md-6 col-xs-6">
+              <table class="table table-striped">
+                <tbody id="worse-picks"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </script>
+
+  <script type="text/template" id="counter-template">
+
+        <tr class="<%
+          if (advantage > 10) { %>success<% }
+          else if (advantage > 7.5) { %>info<% }
+          else if (advantage > 5) { %>warning<% }
+          else if (advantage < 0) { %>danger<% }
+        %>">
+          <td><img src="<%= hero_bg %>"></td>
+          <td><%= hero_name %></td>
+          <td><abbr title="Advantage"><%= advantage %>%</abbr><br><small><abbr title="Win Rate"><%= win_rate %>%</abbr></small></td>
+        </tr>
+
+  </script>
+
+  <script type="text/template" id="about-page">
+
+    <div class="jumbotron">
+      <h2>DotaBuffCP v<%= version %></h2>
+      <p>Database last updated on <em><%= last_update %></em></p>
+    </div>
+
+    <div class="faq">
+
+      <h1>FAQ</h1>
+
+      <h3>What is this?</h3>
+      <p>This is a counter picker for Dota 2. It shows the advantage percentages
+         against a hero or team. Advantage percentages are collected from
+         <a href="http://dotabuff.com/">dotabuff.com</a>. This tool simply adds
+         advantages together and shows the sum of advantage of each hero.
+         It updates database each day, so it will be always sycnhed with dotabuff.
+      </p>
+      <p>DotaBuffCP designed to be a single page application. This allows you
+         to quickly browse advantages. There is no page reloads,
+         HTTP requests etc. You can instantly see the result and you can use
+         this tool to counter-pick your enemies before matches.</p>
+
+      <h3>Why do I need this?</h3>
+      <p>If you don't know what to pick, then this tool may help you.
+         You can run it in your in-game browser.</p>
+      <p>It's also useful to browse advantages quickly. I was using well-known
+         user voted counter picker website. It was slow, not up to date and
+         everyone have their own opinion. I needed a stats based fast tool,
+         and made this eventually.</p>
+
+      <h3>How can I help?</h3>
+      <p>DotaBuffCP is free software. You can contribute to it's development.
+         Check <a href="https://github.com/onuraslan/DotaBuffCP">github</a> page
+         for bug reports, feature requests, etc. I also love pull requests.</p>
+
+      <h3>Is there an easy way to access?</h3>
+      <p>You can also access this page from
+        <strong>tinyurl.com/dotabuffcp</strong>. It's easy to remember.</p>
+
+    </div>
+
+
+  </script>
+
+
+  <!-- google analytics -->
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-50635373-1', 'onuraslan.github.io');
+  ga('send', 'pageview');
+  </script>
+
+  </body>
+</html>
