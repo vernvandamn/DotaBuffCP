@@ -199,13 +199,13 @@ var DotaBuffCP = {
 
   generateLink: function () {
 
-    var link = '#';
+    var happy = '#';
 
     for (var i in this.lineup) {
       if (this.lineup[i] == -1)
-        link += '/';
+        happy += '/';
       else
-        link += heroes[this.lineup[i]] + '/';
+        happy += heroes[this.lineup[i]] + '/';
     }
 
     link = link.replace (/ /g, '_');
